@@ -20,16 +20,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.nameController,
-      // validator: (value) {
-      //   if (value == null || value.trim().isEmpty || !value.contains('@')) {
-      //     return 'Please enter a valid email address!';
-      //   }
-      //   return null;
-      // },
       keyboardType: TextInputType.emailAddress,
       autocorrect: false,
       decoration: InputDecoration(
-        // labelText: "Email",
         hintText: widget.hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(9),

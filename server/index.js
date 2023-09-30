@@ -122,12 +122,55 @@ io.on('connection' , (socket) =>  {
 
     socket.on('msg' , async (data) => {
         try{
-            io.to(data.roomName).emit('msg' , {
+            // finding the player who guesses the word write and then increasing its point
+            if(data.msg === data.word){
+                let room = await Room.find({name:data.roomName}); 
+                let userPlayer = room[0].players.filter((player) => player.nickname === data.username);
+                if(data.timeTaken !== 0){
+                    userPlayer[0].points += Math.round((200/data.timeTaken) * 10);
+                }
+                room = await room[0].save() ; 
+                io.to(data.roomName).emit('msg' , {
+                    username:data.username, 
+                    msg: "Guessed it !", 
+                    guessedUserCtr : data.guessedUserCtr
+                })
+            }
+            else{
+                io.to(data.roomName).emit('msg' , {
                 username:data.username, 
-                msg: data.msg
-            })
+                msg: data.msg, 
+                guessedUserCtr : data.guessedUserCtr
+                })
+            }
+
+
         }catch(error){
             console.log(error.toString()) ; 
+        }
+    })
+
+    socket.on('change-turn' , async(name)=>{
+        try{
+            let room = await Room.findOne({name});
+            let index = room.turnIndex ; 
+            if(index+1 == room.players.length){
+                room.currentRound += 1 ; 
+            }  
+            if(room.currentRound <= room.maxRounds){
+                const word = getWord() ; 
+                room.word = word;
+                room.turnIndex = (index + 1) % room.players.length ; 
+                room.turn = room.players[room.turnIndex] ; 
+                room = await room.save() ; 
+                io.to(name).emit('change-turn' , room) ; 
+            }else{
+                //show leaderboard
+            }
+
+        }
+        catch(err){
+            console.log(err) ; 
         }
     })
 })
