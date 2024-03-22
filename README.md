@@ -1,16 +1,16 @@
-# scribble_game
+# MULTIPLAYER SCRIBBLE GAME
 
-A new Flutter project.
+A mutiplayer online game where players join a room and each player gets a chance to create a basic drawing . Other players will guess the word by typing it . Whosoever guesses it first gets more points. After all the rounds , leaderboard gets displayed showing the winner .Players can change the basic style of their drawing  by changing color and stroke width of pen . 
 
-## Getting Started
+## TECHNOLOGIES USED 
 
-This project is a starting point for a Flutter application.
+-> FLUTTER 
 
-A few resources to get you started if this is your first Flutter project:
+-> MONGO DB 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+-> NODE JS 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-> EXPRESS JS
+
+-> SOCKET.IO
+
