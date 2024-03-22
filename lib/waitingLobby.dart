@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class waitingLobbyScreen extends StatefulWidget {
   int occupancy;
@@ -21,6 +20,7 @@ class waitingLobbyScreen extends StatefulWidget {
   State<waitingLobbyScreen> createState() => _waitingLobbyScreenState();
 }
 
+// ignore: camel_case_types
 class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
   @override
   Widget build(BuildContext context) {
@@ -31,24 +31,24 @@ class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
           height: MediaQuery.of(context).size.height * 0.03,
         ),
         Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.only(top: 20),
           child: Text(
             "Waiting for ${widget.occupancy - widget.noOfPlayers} players to join",
-            style: TextStyle(fontSize: 30),
+            style: const TextStyle(fontSize: 25, fontStyle: FontStyle.italic),
           ),
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.06,
         ),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: TextFormField(
             readOnly: true,
             onTap: () {
               // copy room code
               Clipboard.setData(ClipboardData(text: widget.lobbyName));
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text("Copied")));
+                  .showSnackBar(const SnackBar(content: Text("Copied")));
             },
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
@@ -62,26 +62,33 @@ class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
             ),
           ),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
-        ),
-        Text(
+        SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+        const Text(
           "Players",
-          style: TextStyle(fontSize: 19),
+          style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic),
         ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
         ListView.builder(
             primary: true,
             shrinkWrap: true,
             itemCount: widget.noOfPlayers,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: Text(
-                  "${index + 1}",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                title: Text(
-                  widget.players[index]['nickname'],
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              return Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ListTile(
+                  leading: Text(
+                    "${index + 1}.",
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  title: Text(
+                    widget.players[index]['nickname'],
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ),
               );
             })

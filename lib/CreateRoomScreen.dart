@@ -1,8 +1,12 @@
+import 'dart:math';
+import "dart:developer";
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:scribble_game/paintScreen.dart';
+import 'package:scribble_game/secrets.dart';
 import 'package:scribble_game/widgets/customTextField.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class CreateRoomScreen extends StatefulWidget {
   const CreateRoomScreen({super.key});
@@ -16,6 +20,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final TextEditingController _roomNameController = TextEditingController();
   late String? _maxRoundsValue;
   late String? _roomSizeValue;
+  late IO.Socket _socket;
 
   void createRoom() {
     // this sends the data in form of a map to the paint screen .
@@ -29,12 +34,25 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
         "name": _roomNameController.text,
         "occupancy": _maxRoundsValue!,
         "maxRounds": _roomSizeValue!
+        // "nickname": "prabhav",
+        // "name": "ggggg",
+        // "occupancy": "2",
+        // "maxRounds": "2"
       };
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              PaintScreen(data: data, screenFrom: 'createRoom')));
+              PaintScreen(dataa: data, screenFrom: 'createRoom')));
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connectSocket();
+  }
+
+  void connectSocket() {}
 
   @override
   Widget build(BuildContext context) {

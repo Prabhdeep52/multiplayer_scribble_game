@@ -21,13 +21,14 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
     if (_nameController.text.isNotEmpty &&
         _roomNameController.text.isNotEmpty) {
       Map<String, String> data = {
-        "nickname": _nameController.text,
-        "name": _roomNameController.text
+        "nickname": "_nameController.text",
+        // "name": _roomNameController.text
+        "name": "ggggg"
       };
 
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              PaintScreen(data: data, screenFrom: 'joinRoom')));
+              PaintScreen(dataa: data, screenFrom: 'joinRoom')));
     }
   }
 

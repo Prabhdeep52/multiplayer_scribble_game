@@ -1,13 +1,12 @@
 const express = require("express");
 var http = require('http');
+const app = express();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
-const app = express();
 const server = http.createServer(app);
-
 const Room = require('./model/room');
+const io = require('socket.io')(server);
 const getWord = require('./api/getWord') ; 
-var io = require("socket.io")(server); 
 
 //middleware 
 app.use(express.json());
@@ -24,9 +23,10 @@ mongoose.connect(db).then(() => {
 // it gets activated when connection gets established 
 io.on('connection' , (socket) =>  {
     console.log('socket connected'); 
-
+    socket.emit('connected' , 'connected to server');
     // this socket now hears the events . it hears the create-game which we emitted in the paint screen. and it gets data with itself . 
     socket.on('create-game' , async ({nickname , name  , occupancy , maxRounds }) => {
+        console.log("create game socket reached")
         try{
 
             const existingRoom = await Room.findOne({name}) ; 
@@ -55,6 +55,7 @@ io.on('connection' , (socket) =>  {
 
             // it again emits the signal updateRoom and then sends room as the data with itself 
             io.to(name).emit('updateRoom' , room);
+            console.log("updata room socket emitted")
 
         }catch(err){
             console.log(err); 
@@ -64,6 +65,7 @@ io.on('connection' , (socket) =>  {
 
 
     socket.on('join-game' ,async ({nickname , name }) => {
+        console.log("join game socket reached")
         try{
             let room = await Room.findOne({name}) ; 
 
@@ -88,6 +90,7 @@ io.on('connection' , (socket) =>  {
 
             room.turn = room.players[room.turnIndex] ; 
             room = await room.save() ; 
+            console.log("update room socket emitted by join event")
             io.to(name).emit('updateRoom' , room); 
         }
 
@@ -96,7 +99,7 @@ io.on('connection' , (socket) =>  {
         }
 
         }catch(err){
-
+                console.log(err) ;
         }
     });
 
