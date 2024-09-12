@@ -7,7 +7,8 @@ const server = http.createServer(app);
 const Room = require('./model/room');
 const io = require('socket.io')(server);
 const getWord = require('./api/getWord') ; 
-
+const cors = require('cors');
+app.use(cors());
 //middleware 
 app.use(express.json());
 
@@ -22,6 +23,7 @@ mongoose.connect(db).then(() => {
 
 // it gets activated when connection gets established 
 io.on('connection' , (socket) =>  {
+
     console.log('socket connected'); 
     socket.emit('connected' , 'connected to server');
     // this socket now hears the events . it hears the create-game which we emitted in the paint screen. and it gets data with itself . 
@@ -70,6 +72,7 @@ io.on('connection' , (socket) =>  {
             let room = await Room.findOne({name}) ; 
 
             if(!room){
+                console.log("not correct game socket emitted") 
                 socket.emit('notCorrectGame' , 'Please enter a correct room name') ; 
                 return ;
             }

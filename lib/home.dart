@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
                     ));
                   },
                   style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(170, 40)),
-                    shape: MaterialStateProperty.all(
+                    fixedSize: WidgetStateProperty.all(const Size(170, 40)),
+                    shape: WidgetStateProperty.all(
                       const ContinuousRectangleBorder(
                         borderRadius: BorderRadiusDirectional.all(
                           Radius.circular(13),
