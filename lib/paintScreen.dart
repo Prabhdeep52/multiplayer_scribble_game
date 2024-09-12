@@ -368,7 +368,7 @@ class _PaintScreenState extends State<PaintScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: width,
                                 height: height * 0.55,
                                 child: GestureDetector(
@@ -419,47 +419,51 @@ class _PaintScreenState extends State<PaintScreen> {
                               ),
                               SizedBox(height: 5),
 
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        selectColor();
-                                      },
-                                      icon: Icon(
-                                        Icons.color_lens_outlined,
-                                        color: selectedColor,
-                                      )),
-                                  dataOfRoom['turn']['nickname'] ==
-                                          widget.dataa['nickname']
-                                      ? Expanded(
-                                          child: Slider(
-                                              min: 1.0,
-                                              max: 10,
-                                              value: strokeWidth,
-                                              label:
-                                                  "Stroke width: $strokeWidth",
-                                              activeColor: selectedColor,
-                                              onChanged: (double value) {
-                                                Map map = {
-                                                  'value': value,
-                                                  'roomName': dataOfRoom['name']
-                                                };
-                                                _socket.emit(
-                                                    'stroke-width', map);
-                                              }))
-                                      : Container(),
-                                  IconButton(
-                                      onPressed: () {
-                                        _socket.emit(
-                                            'clean-screen', dataOfRoom['name']);
-                                      },
-                                      icon: Icon(
-                                        Icons.layers_outlined,
-                                        color: selectedColor,
-                                      )),
-                                ],
+                              dataOfRoom['turn']['nickname'] ==
+                                      widget.dataa['nickname']
+                                  ? Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              selectColor();
+                                            },
+                                            icon: Icon(
+                                              Icons.color_lens_outlined,
+                                              color: selectedColor,
+                                            )),
+                                        Expanded(
+                                            child: Slider(
+                                                min: 1.0,
+                                                max: 10,
+                                                value: strokeWidth,
+                                                label:
+                                                    "Stroke width: $strokeWidth",
+                                                activeColor: selectedColor,
+                                                onChanged: (double value) {
+                                                  Map map = {
+                                                    'value': value,
+                                                    'roomName':
+                                                        dataOfRoom['name']
+                                                  };
+                                                  _socket.emit(
+                                                      'stroke-width', map);
+                                                })),
+                                        IconButton(
+                                            onPressed: () {
+                                              _socket.emit('clean-screen',
+                                                  dataOfRoom['name']);
+                                            },
+                                            icon: Icon(
+                                              Icons.layers_outlined,
+                                              color: selectedColor,
+                                            )),
+                                      ],
+                                    )
+                                  : const Text("GUESS THE WORD"),
+                              Text(
+                                "${dataOfRoom['turn']['nickname']} is drawing",
+                                style: const TextStyle(fontSize: 14),
                               ),
-
                               //print(dataOfRoom);
                               dataOfRoom['turn']['nickname'] !=
                                       widget.dataa['nickname']

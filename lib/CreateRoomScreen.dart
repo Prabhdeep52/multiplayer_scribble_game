@@ -1,10 +1,5 @@
-import 'dart:math';
-import "dart:developer";
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:scribble_game/paintScreen.dart';
-import 'package:scribble_game/secrets.dart';
 import 'package:scribble_game/widgets/customTextField.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -18,13 +13,21 @@ class CreateRoomScreen extends StatefulWidget {
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _roomNameController = TextEditingController();
-  late String? _maxRoundsValue;
-  late String? _roomSizeValue;
+  String? _maxRoundsValue; // Nullable string to hold the selected value
+  String? _roomSizeValue; // Nullable string to hold the selected value
   late IO.Socket _socket;
 
+  @override
+  void initState() {
+    super.initState();
+    connectSocket();
+  }
+
+  void connectSocket() {
+    // TODO: Implement socket connection logic
+  }
+
   void createRoom() {
-    // this sends the data in form of a map to the paint screen .
-    // it uses screenFrom to identify the page from where the data is comming , in this case data is comming from createRoom page
     if (_nameController.text.isNotEmpty &&
         _roomNameController.text.isNotEmpty &&
         _maxRoundsValue != null &&
@@ -34,25 +37,27 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
         "name": _roomNameController.text,
         "occupancy": _maxRoundsValue!,
         "maxRounds": _roomSizeValue!
-        // "nickname": "prabhav",
-        // "name": "ggggg",
-        // "occupancy": "2",
-        // "maxRounds": "2"
       };
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               PaintScreen(dataa: data, screenFrom: 'createRoom')));
+    } else {
+      // Show error message if any field is missing
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error"),
+          content: Text("Please fill out all fields."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
     }
   }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    connectSocket();
-  }
-
-  void connectSocket() {}
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               fontSize: 30,
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+          SizedBox(height: mq.height * 0.06),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomTextField(
@@ -77,7 +82,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               nameController: _nameController,
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          SizedBox(height: mq.height * 0.02),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: CustomTextField(
@@ -85,9 +90,10 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               nameController: _roomNameController,
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+          SizedBox(height: mq.height * 0.04),
           DropdownButton<String>(
             focusColor: const Color(0xffF5F6FA),
+            //value: _maxRoundsValue, // Display the selected value
             items: <String>["2", "5", "10", "15"]
                 .map<DropdownMenuItem<String>>(
                   (String value) => DropdownMenuItem(
@@ -99,7 +105,10 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                   ),
                 )
                 .toList(),
-            hint: const Text('Select Max Rounds',
+            hint: Text(
+                _maxRoundsValue != null
+                    ? 'Select Max Rounds $_maxRoundsValue'
+                    : 'Select Max Rounds',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -111,45 +120,53 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               });
             },
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          DropdownButton<String>(
-            focusColor: const Color(0xffF5F6FA),
-            items: <String>["2", "3", "4", "5", "6", "7", "8"]
-                .map<DropdownMenuItem<String>>(
-                  (String value) => DropdownMenuItem(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ),
-                )
-                .toList(),
-            hint: const Text('Select Room Size',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                )),
-            onChanged: (String? value) {
-              setState(() {
-                _roomSizeValue = value;
-              });
-            },
+          SizedBox(height: mq.height * 0.03),
+          Column(
+            children: [
+              DropdownButton<String>(
+                focusColor: const Color(0xffF5F6FA),
+                // value: _roomSizeValue, // Display the selected value
+                items: <String>["2", "3", "4", "5", "6", "7", "8"]
+                    .map<DropdownMenuItem<String>>(
+                      (String value) => DropdownMenuItem(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                hint: Text(
+                    _roomSizeValue != null
+                        ? 'Select Room Size : $_roomSizeValue'
+                        : 'Select Room Size',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    )),
+                onChanged: (String? value) {
+                  setState(() {
+                    _roomSizeValue = value;
+                  });
+                },
+              ),
+            ],
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+          SizedBox(height: mq.height * 0.05),
           OutlinedButton(
             onPressed: createRoom,
             style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all(const Size(250, 40)),
-              shape: MaterialStateProperty.all(
+              fixedSize: WidgetStateProperty.all(const Size(250, 40)),
+              shape: WidgetStateProperty.all(
                 const ContinuousRectangleBorder(
                   borderRadius: BorderRadiusDirectional.all(
                     Radius.circular(13),
                   ),
                 ),
               ),
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                 const Color.fromARGB(255, 48, 130, 201),
               ),
             ),

@@ -34,7 +34,7 @@ class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
           padding: const EdgeInsets.only(top: 20),
           child: Text(
             "Waiting for ${widget.occupancy - widget.noOfPlayers} players to join",
-            style: const TextStyle(fontSize: 25, fontStyle: FontStyle.italic),
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(
@@ -64,11 +64,11 @@ class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.04),
         const Text(
-          "Players",
+          "Players in lobby ",
           style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic),
+              fontStyle: FontStyle.normal),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.02),
         ListView.builder(

@@ -9,27 +9,41 @@ class PlayerScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Center(
-        child: SizedBox(
-            height: double.maxFinite,
-            child: ListView.builder(
-                itemCount: userData.length,
-                itemBuilder: (context, index) {
-                  var data = userData[index].values;
-                  return ListTile(
-                    title: Text(
-                      data.elementAt(0),
-                      style: const TextStyle(color: Colors.black, fontSize: 23),
-                    ),
-                    trailing: Text(
-                      data.elementAt(1),
-                      style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  );
-                })),
+      child: Expanded(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07,
+            ),
+            Text("Scoreboard",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold)),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: ListView.builder(
+                    itemCount: userData.length,
+                    itemBuilder: (context, index) {
+                      var data = userData[index].values;
+                      return ListTile(
+                        title: Text(
+                          data.elementAt(0),
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 132, 102, 102),
+                              fontSize: 23),
+                        ),
+                        trailing: Text(
+                          data.elementAt(1),
+                          style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    })),
+          ],
+        ),
       ),
     );
   }
