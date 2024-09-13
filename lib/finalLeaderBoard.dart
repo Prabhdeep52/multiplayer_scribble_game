@@ -11,13 +11,13 @@ class FinalLeaderBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         height: double.maxFinite,
         child: Column(
           children: [
             Text(
               "$winner has won the game",
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),

@@ -20,7 +20,6 @@ class waitingLobbyScreen extends StatefulWidget {
   State<waitingLobbyScreen> createState() => _waitingLobbyScreenState();
 }
 
-// ignore: camel_case_types
 class _waitingLobbyScreenState extends State<waitingLobbyScreen> {
   @override
   Widget build(BuildContext context) {

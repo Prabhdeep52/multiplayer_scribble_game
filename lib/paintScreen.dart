@@ -1,10 +1,8 @@
+// ignore_for_file: file_names, depend_on_referenced_packages
+
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:scribble_game/finalLeaderBoard.dart';
 import 'package:scribble_game/home.dart';
 import 'package:scribble_game/models/muCustomPainter.dart';
