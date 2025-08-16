@@ -2,6 +2,13 @@
 
 Scribble is a real-time, multiplayer drawing and guessing game inspired by Pictionary. Players join rooms, take turns drawing a word, and others try to guess it within a time limit. The game is built with Flutter for the client and Node.js (Socket.IO) for the server, supporting web, Android, iOS, Windows, macOS, and Linux.
 
+
+# Demo
+
+
+https://github.com/user-attachments/assets/81b74e5b-fbad-430c-8535-9ca830387011
+
+
 ## Features
 
 - 🎨 Real-time multiplayer drawing and guessing
