@@ -5,9 +5,15 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const Room = require('./model/room');
-const io = require('socket.io')(server);
 const getWord = require('./api/getWord') ; 
 const cors = require('cors');
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*", // or specify your frontend URL for more security
+    methods: ["GET", "POST"]
+  }
+});
+
 app.use(cors());
 //middleware 
 app.use(express.json());
