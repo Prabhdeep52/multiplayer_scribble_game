@@ -86,25 +86,26 @@ class _PaintScreenState extends State<PaintScreen> {
   void connectt() {
     print("connect function called");
     // connecting to socket
-    _socket = IO.io(
-      BACKEND_URL,
-      IO.OptionBuilder()
-          .setTransports(['websocket'])
-          .disableAutoConnect()
-          .build(),
-    );
-
-    _socket.onConnectError((error) {
-      print(error);
+    _socket = IO.io(BACKEND_URL, <String, dynamic>{
+      'transports': ['polling', 'websocket'],
+      'timeout': 20000, // 20 seconds
+      'autoConnect': false,
+      'reconnection': true,
+      'reconnectionAttempts': 5,
+      'reconnectionDelay': 1000,
+      'force': true,
     });
 
-    _socket.onReconnectError((error) {
-      print("error");
+    _socket.onConnectError((error) {
+      print('❌ Connection Error: $error');
     });
 
     _socket.onError((error) {
-      print('Socket error: $error');
-      // Handle the error here
+      print('❌ Socket error: $error');
+    });
+
+    _socket.onDisconnect((reason) {
+      print('🔌 Disconnected from server: $reason');
     });
 
     // listen to socket
@@ -118,6 +119,10 @@ class _PaintScreenState extends State<PaintScreen> {
         print("emit join game");
         _socket.emit('join-game', widget.dataa);
       }
+
+      _socket.on("connected", (data) {
+        print("Server says: $data");
+      });
 
       // it again hears updateRoom event which is emitted in index.js function and do the work
       _socket.on("updateRoom", (roomData) {

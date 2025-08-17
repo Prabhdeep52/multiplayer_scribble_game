@@ -11,7 +11,9 @@ const io = require('socket.io')(server, {
   cors: {
     origin: "*", // or specify your frontend URL for more security
     methods: ["GET", "POST"]
-  }
+  }, 
+    transports: ['websocket', 'polling']
+
 });
 
 app.use(cors());
@@ -26,6 +28,15 @@ mongoose.connect(db).then(() => {
 }).catch((e) => {
     console.log(e) ; 
 })
+
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Scribble Backend Server is running!',
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    connectedClients: io.engine.clientsCount
+  });
+});
 
 // it gets activated when connection gets established 
 io.on('connection' , (socket) =>  {
