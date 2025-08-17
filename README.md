@@ -58,27 +58,36 @@ https://github.com/user-attachments/assets/81b74e5b-fbad-430c-8535-9ca830387011
 git clone https://github.com/your-username/scribble.git
 cd scribble
 ```
+#### 2. Create `secrets.dart` file with backend URL
+In the `lib/` directory, create a file named `secrets.dart` and add the following:
 
-#### 2. Install Flutter dependencies
+```dart
+const String BACKEND_URL = 'http://<IP_ADDRESS>:<PORT>';
+```
+Replace `<IP_ADDRESS>` and `<PORT>` with your server's address and port.
+
+
+
+#### 3. Install Flutter dependencies
 
 ```sh
 flutter pub get
 ```
 
-#### 3. Install server dependencies
+#### 4. Install server dependencies
 
 ```sh
 cd server
 npm install
 ```
 
-#### 4. Start the server
+#### 5. Start the server
 
 ```sh
 node index.js
 ```
 
-#### 5. Run the Flutter app
+#### 6. Run the Flutter app
 
 ```sh
 flutter run
