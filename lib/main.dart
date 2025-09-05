@@ -7,15 +7,15 @@ import 'package:scribble/paintScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables
-  try {
-    await dotenv.load(fileName: ".env");
-    print("✅ Environment variables loaded successfully");
-    print("Backend URL: ${dotenv.env['BACKEND_URL']}");
-  } catch (e) {
-    print("⚠️ Could not load .env file: $e");
-    print("Using default values");
-  }
+  // // Load environment variables
+  // try {
+  //   await dotenv.load(fileName: ".env");
+  //   print("✅ Environment variables loaded successfully");
+  //   print("Backend URL: ${dotenv.env['BACKEND_URL']}");
+  // } catch (e) {
+  //   print("⚠️ Could not load .env file: $e");
+  //   print("Using default values");
+  // }
   runApp(const MyApp());
 }
 
