@@ -19,11 +19,14 @@
 class AppConfig {
   static String get backendUrl => const String.fromEnvironment(
     'BACKEND_URL',
-    defaultValue: 'http://localhost:3000',
+    defaultValue:
+        'https://multiplayer-scribble-game.onrender.com', // Fixed production URL
   );
 
-  static String get environment =>
-      const String.fromEnvironment('ENVIRONMENT', defaultValue: 'development');
+  static String get environment => const String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: 'production',
+  ); // Changed default to production
 
   static bool get isDevelopment => environment == 'development';
   static bool get isProduction => environment == 'production';
