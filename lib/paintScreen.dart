@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, depend_on_referenced_packages
 
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:scribble/finalLeaderBoard.dart';
 import 'package:scribble/home.dart';
@@ -50,13 +50,40 @@ class _PaintScreenState extends State<PaintScreen> {
 
   @override
   void initState() {
-    connectt();
+    testServerConnection();
+    //connectt();
     // setState(() {
     //   dataOfRoom = widget.dataa;
     // });
     super.initState();
     print(widget.dataa);
     print("object");
+  }
+
+  Future<void> testServerConnection() async {
+    try {
+      print("🔍 Testing server connection...");
+
+      final response = await http
+          .get(Uri.parse(BACKEND_URL))
+          .timeout(Duration(seconds: 10));
+
+      print("✅ Server response: ${response.statusCode}");
+      print("✅ Server body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        print("🎉 Server is reachable! Now trying socket...");
+        connectt(); // Only connect socket if HTTP works
+      } else {
+        print("❌ Server returned error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("❌ Cannot reach server: $e");
+      // Show error to user
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Cannot connect to server: $e')));
+    }
   }
 
   void startTimer() {
@@ -86,15 +113,18 @@ class _PaintScreenState extends State<PaintScreen> {
   void connectt() {
     print("connect function called");
     // connecting to socket
-    _socket = IO.io(BACKEND_URL, <String, dynamic>{
-      'transports': ['polling', 'websocket'],
-      'timeout': 20000, // 20 seconds
-      'autoConnect': false,
-      'reconnection': true,
-      'reconnectionAttempts': 5,
-      'reconnectionDelay': 1000,
-      'force': true,
-    });
+    _socket = IO.io(
+      BACKEND_URL,
+      IO.OptionBuilder()
+          .setTransports(['websocket', 'polling']) // ONLY polling, no websocket
+          .setTimeout(60000) // Long timeout
+          .setReconnectionAttempts(3)
+          .setReconnectionDelay(5000)
+          .enableAutoConnect()
+          .enableForceNew()
+          .disableMultiplex() // Disable multiplexing
+          .build(),
+    );
 
     _socket.onConnectError((error) {
       print('❌ Connection Error: $error');
