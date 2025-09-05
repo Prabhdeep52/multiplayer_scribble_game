@@ -1,10 +1,21 @@
 // ignore_for_file: unused_import
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:scribble/home.dart';
 import 'package:scribble/paintScreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables
+  try {
+    await dotenv.load(fileName: ".env");
+    print("✅ Environment variables loaded successfully");
+    print("Backend URL: ${dotenv.env['BACKEND_URL']}");
+  } catch (e) {
+    print("⚠️ Could not load .env file: $e");
+    print("Using default values");
+  }
   runApp(const MyApp());
 }
 
@@ -27,6 +38,21 @@ class MyApp extends StatelessWidget {
           bodyLarge: TextStyle(color: Colors.white),
           bodyMedium: TextStyle(color: Colors.white70),
         ),
+        dropdownMenuTheme: const DropdownMenuThemeData(
+          textStyle: TextStyle(color: Color(0xFF212529)),
+        ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: const Color(0xFF16213E),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          titleTextStyle: TextStyle(
+            color: Color(0xFF212529),
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+          contentTextStyle: TextStyle(color: Color(0xFF495057), fontSize: 16),
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFE94560),
@@ -37,6 +63,7 @@ class MyApp extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           ),
         ),
+
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: const Color(0xFF16213E),

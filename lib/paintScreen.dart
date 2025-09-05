@@ -112,6 +112,8 @@ class _PaintScreenState extends State<PaintScreen> {
   // socket connection
   void connectt() {
     print("connect function called");
+    print("Connecting to: $BACKEND_URL"); // This will now use the env variable
+
     // connecting to socket
     _socket = IO.io(
       BACKEND_URL,
