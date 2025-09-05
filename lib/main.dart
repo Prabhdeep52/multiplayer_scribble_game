@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.white70),
         ),
         dropdownMenuTheme: const DropdownMenuThemeData(
-          textStyle: TextStyle(color: Color(0xFF212529)),
+          textStyle: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
         dialogTheme: DialogThemeData(
           backgroundColor: const Color(0xFF16213E),
@@ -47,11 +47,11 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           titleTextStyle: TextStyle(
-            color: Color(0xFF212529),
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
-          contentTextStyle: TextStyle(color: Color(0xFF495057), fontSize: 16),
+          contentTextStyle: TextStyle(color: Colors.white70, fontSize: 16),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
