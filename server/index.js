@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 var http = require('http');
 const app = express();
@@ -21,7 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 // connection to db 
-const db = "mongodb+srv://deepprabh832:helloworld@cluster0.suuht63.mongodb.net/?retryWrites=true&w=majority"
+const db = process.env.MONGO_URI ;
 
 mongoose.connect(db).then(() => {
     console.log("Database Connection successful");
